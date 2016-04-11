@@ -38,4 +38,5 @@ $mavenConfig = '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
 
 </settings>'
 
+New-Item "$env:USERPROFILE\.m2" -ItemType Directory -Force
 Set-Content "$env:USERPROFILE\.m2\settings.xml" -Value $mavenConfig
