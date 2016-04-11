@@ -21,3 +21,21 @@ $wininet::InternetSetOption([IntPtr]::Zero, 37, [IntPtr]::Zero, 0)|out-null
 
 [Net.ServicePointManager]::SecurityProtocol = 'Tls12'
 Invoke-WebRequest https://canhazip.com
+
+$mavenConfig = '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                  http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <proxies>
+    <proxy>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>10.240.0.29</host>
+      <port>8888</port>
+    </proxy>
+  </proxies>
+
+</settings>'
+
+Set-Content "$env:USERPROFILE\.m2\settings.xml" -Value $mavenConfig
