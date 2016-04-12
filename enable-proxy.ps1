@@ -6,6 +6,8 @@ $proxies = @{
     "104.197.65.101" = "10.240.0.74"  # f
 }
 
+Write-Host -NoNewline "Enabling AppVeyor HTTP proxy..."
+
 # Enable SSL3
 $origProtocol = [Net.ServicePointManager]::SecurityProtocol
 [Net.ServicePointManager]::SecurityProtocol = 'Tls12'
@@ -24,10 +26,9 @@ $proxy_port = "8888"
 if(-not $proxy_ip) {
     # IP address not found
     # no proxy for the given address
+    Write-Host "Skipped - no proxy found for the current build worker" -ForegroundColor Yellow
     return
 }
-
-Write-Host "Enabling AppVeyor HTTP proxy..."
 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /t REG_SZ /d "$proxy_ip`:$proxy_port" /f
@@ -53,3 +54,5 @@ $wininet::InternetSetOption([IntPtr]::Zero, 37, [IntPtr]::Zero, 0)|out-null
 # save proxy details in environment variables
 $env:APPVEYOR_HTTP_PROXY_IP = $proxy_ip
 $env:APPVEYOR_HTTP_PROXY_PORT = $proxy_port
+
+Write-Host "OK" -ForegroundColor Green
