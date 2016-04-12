@@ -18,6 +18,7 @@ install:
   - set PATH=%PATH%;C:\tools\apache-maven-%MVN_VERSION%\bin
   - IF NOT exist "C:\tools\apache-maven-%MVN_VERSION%\bin\*.*" (echo Maven %MVN_VERSION% not installed, so install it & cinst maven -Version %MVN_VERSION%) ELSE (echo Maven %MVN_VERSION% already installed)
   - ps: .\enable-proxy.ps1
+  - ps: .\set-maven-proxy.ps1
   - ps: (New-Object Net.WebClient).DownloadFile('http://download.osgeo.org/webdav/geotools/org/geotools/gt-metadata/14.2/gt-metadata-14.2.jar', "$env:USERPROFILE\gt-metadata-14.2.jar")
   - mvn install -Dmaven.test.skip=true -B -V -fae -q -pl "!dist"
 
